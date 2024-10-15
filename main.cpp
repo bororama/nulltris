@@ -11,6 +11,9 @@ static SDL_Window* window;
 static SDL_Renderer* renderer;
 static bool running = true;
 static BoardRenderer *boardRenderer;
+static BoardRenderer *boardRenderer2;
+
+
 
 uint8_t init() {	
 	if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
@@ -35,7 +38,8 @@ uint8_t init() {
 		return 1;
 	}
 	Board b(10, 20);
-	boardRenderer = new BoardRenderer(renderer, b, 150, 400);
+	boardRenderer = new BoardRenderer(renderer, b, 150, 300);
+	boardRenderer2 = new BoardRenderer(renderer, b, )
 	std::cout << "SDL initialized" << std::endl;
 	SDL_SetRenderDrawColor(renderer, 0x2c, 0x2c, 0x2c, 0xff);
 	SDL_RenderClear(renderer);
@@ -49,7 +53,6 @@ void quit() {
 	SDL_DestroyRenderer(renderer);
 	SDL_Quit();
 }
-
 
 void processInput() {
 	SDL_Event event;
@@ -72,9 +75,9 @@ void update() {
 
 void render() {
 
-	SDL_Rect boardSpace = {20, 20, 150, 400};
+	SDL_Rect boardSpace = {20, 20, boardRenderer->getWidth(), boardRenderer->getHeight()};
 	boardRenderer->render();
-	SDL_RenderCopy(renderer, boardRenderer->_boardTexture, NULL, &boardSpace);
+	SDL_RenderCopy(renderer, boardRenderer->getTexture(), NULL, &boardSpace);
 	SDL_RenderPresent(renderer);
 }
 
@@ -89,7 +92,6 @@ uint32_t delay(uint32_t lastTick) {
 		}
 		return currentTick;
 }
-
 
 uint8_t loop() {
 
@@ -106,8 +108,6 @@ uint8_t loop() {
 	}
 	return 0;
 }
-
-
 
 int main(int argc, char* argv[]) {
 	if (init() != 0) {

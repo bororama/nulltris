@@ -8,6 +8,7 @@ public:
 	~Board();
 	uint8_t getNoOfCols() const;
 	uint8_t getNoOfRows() const;
+	
 
 private:
 	uint8_t _cols;
